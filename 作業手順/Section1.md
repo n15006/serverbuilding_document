@@ -17,31 +17,32 @@
 11."yum -y install wget"でwgetをインストール   
 12."vi /etc/wgetrc"で中のproxyの行を変更  
 ####proxy設定
-12./etc/profileに"PROXY='172.16.40.1:8888'","export http_proxy=$PROXY","export HTTP_PROXY=$PROXY","export https_proxy=$PROXY","export HTTPS_PROXY=$PROXY"を追記  
-13."source /etc/profile"で変更点を更新  
+13./etc/profileに"PROXY='172.16.40.1:8888'","export http_proxy=$PROXY","export HTTP_PROXY=$PROXY","export https_proxy=$PROXY","export HTTPS_PROXY=$PROXY"を追記  
+14."source /etc/profile"で変更点を更新  
 ####php設定
-14.yumで"yum -y install php php-mdstring php-mysql"でphpをインストール  
-15./var/www/htmlに"echo '<?php echo phpinfo(); ?>' > index.php"でindex.htmlを作成  
+15.yumで"yum -y install php php-mdstring php-mysql"でphpをインストール  
+16./var/www/htmlに"echo '<?php echo phpinfo(); ?>' > index.php"でindex.htmlを作成  
 ####apache設定
-16.yumで"yum -y install httpd"でapacheをインストール  
-17."systemctl enable httpd.service"で自動起動設定  
-18."systemctl start httpd.service"でapacheを起動  
-19."systemctl status httpd.service"でapacheの起動確認  
+17.yumで"yum -y install httpd"でapacheをインストール  
+18."systemctl enable httpd.service"で自動起動設定  
+19."systemctl start httpd.service"でapacheを起動  
+20."systemctl status httpd.service"でapacheの起動確認  
 ####mysql設定
-20."yum -y install http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm"で公式リポジトリファイルをインストール  
-21."yum -y install mysql","yum -y install mysql-server"でmysqlをインストール  
-22."service mysqld start"でmysqlを起動  
-23."mysql_secure_installation"でmysqlの初期設定とパスワード設定  
-24."mysql -u root -p"で設定したパスワードでログイン  
-25.mysqlのshell内で"create database @@@@;"でデータベースを作る  
-26."flush privileges;"で設定を更新  
+21."yum -y install http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm"で公式リポジトリファイルをインストール  
+22."yum -y install mysql","yum -y install mysql-server"でmysqlをインストール  
+23."service mysqld start"でmysqlを起動  
+24."mysql_secure_installation"でmysqlの初期設定とパスワード設定  
+25."mysql -u root -p"で設定したパスワードでログイン  
+26.mysqlのshell内で"create database @@@@;"でデータベースを作る  
+27."flush privileges;"で設定を更新  
 ####wordpress設定
-25.wgetでwordpressのURLを入力しファイルを取ってくる  
-26.ダウンロードしたファイルを/var/www/html/に移動  
-27.移動したファイルを"gunzip ファイル名"で解凍、"tar -xf ファイル名"で展開  
-28."chown -R apache:apache /var/www/html/wordpress/*"で権限変更  
-29."iptables -A INPUT -p tcp --dport 80 -j ACCEPT","iptables -A INPUT -p tcp --dport 443 -j ACCEPT","iptables -L"でポートを開ける  
-30."sudo vi /etc/selinux/config"の中の文章を"SELINUX=disabled"に変更しSELINUXを停止
-28.ブラウザで、http://192.168.56.102/wordpress/wp-admin/install.phpを開く  
-29.mysqlで設定したデータベース名、ユーザー、パスワード、ホスト名を入力し次へ  
-30.
+28.wgetでwordpressのURLを入力しファイルを取ってくる  
+29.ダウンロードしたファイルを/var/www/html/に移動  
+30.移動したファイルを"gunzip ファイル名"で解凍、"tar -xf ファイル名"で展開  
+31."chown -R apache:apache /var/www/html/wordpress/*"で権限変更  
+32."iptables -A INPUT -p tcp --dport 80 -j ACCEPT","iptables -A INPUT -p tcp --dport 443 -j ACCEPT","iptables -L"でポートを開ける  
+33."sudo vi /etc/selinux/config"の中の文章を"SELINUX=disabled"に変更しSELINUXを停止
+34.ブラウザで、http://192.168.56.102/wordpress/wp-admin/install.phpを開く  
+35.mysqlで設定したデータベース名、ユーザー、パスワード、ホスト名を入力し次へ  
+36.インストールを実行  
+37.タイトル、名前、メールアドレスなどを設定  
