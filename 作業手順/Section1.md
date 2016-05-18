@@ -7,7 +7,7 @@
 5.CenOS7をインストールしパーティションの設定は特に指定せず、作成  
 6.インストール中にroot以外のユーザーを作成  
 ##ネットワークアダプター1/2へのIPアドレスの設定とssh接続の確認
-7.インストール終了後、作ったアカウントにログインし、/etc/sysconfig/network-scriptにあるifcfg-enp0s?というファイルの中身の"BOOTPROTO"をyesに、"ONBOOT"をyesにする  
+7.インストール終了後、作ったアカウントにログインし、'/etc/sysconfig/network-script'にある'ifcfg-enp0s?'というファイルの中身の'"BOOTPROTO"'を'yes'に、'"ONBOOT"'を'yes'にする  
 8.コマンド"systemctl restart NetworkManager"を入力し、変更を更新、反映  
 ####ssh接続の確認
 9.コマンドip aでアドレスを確認し、自分のターミナルから仮想マシンにssh接続  
