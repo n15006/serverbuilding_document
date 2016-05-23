@@ -35,7 +35,7 @@
 25.`mysql -u root -p`で設定したパスワードでログイン  
 26.mysqlのshell内で`create database @@@@;`でデータベースを作る  
 27.`flush privileges;`で設定を更新  
-####wordpress設定
+##wordpress設定
 28.wgetでwordpressのURLを入力しファイルを取ってくる  
 29.ダウンロードしたファイルを/var/www/html/に移動  
 30.移動したファイルを`gunzip ファイル名`で解凍、`tar -xf ファイル名`で展開  
