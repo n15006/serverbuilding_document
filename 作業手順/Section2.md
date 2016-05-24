@@ -23,20 +23,24 @@
 ####nginxでphp-fpm動かす設定  
 17./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
 18./etc/nginx/conf.d/default.confの中の`root   /usr/share/nginx/html;`を`root   /var/www;`、`index  index.html index.htm;`を`index  index.php;
-`、  
+`、
+~~~~  
 ` #location ~ \.php$ {  
     #    root           html;  
     #    fastcgi_pass   127.0.0.1:9000;  
     #    fastcgi_index  index.php;  
     #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;  
     #    include        fastcgi_params;  
-    #}`  
+    #}`
+~~~~  
 を  
+~~~~
 `location ~ \.php$ {   
         root           /var/www;  
         fastcgi_pass   127.0.0.1:9000;  
         fastcgi_index  index.php;  
         fastcgi_param  SCRIPT_FILENAME  /var/www$fastcgi_script_name;  
         include        fastcgi_params;  
-     }`  
+     }`
+~~~~  
 に書き換える
