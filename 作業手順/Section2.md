@@ -46,4 +46,24 @@
 ~~~~  
 に書き換える  
 20.`systemctl start php-fpm.service`でphp-fpmを起動  
-21.default.confの内容を変更したので`systemctl restart nginx.service`でnginxを再起動
+21.`chkconfig php-fpm on`で自動起動設定  
+22.default.confの内容を変更したので`systemctl restart nginx.service`でnginxを再起動  
+####MariaDB設定  
+23.`yum -y install mariadb mariadb-server`でmariadbとmariadb-serverをダウンロー&インストール  
+24.`systemctl start mariadb`で起動  
+25.`systemctl enable mariadb`で自動起動設定  
+26.`mysql_secure_installation`で初期設定とパスワード設定  
+27.`mysql -u root -p`を実行し設定したパスワードでログイン  
+28.`create database ****`でデータベース作成  
+29.flush privileges;で設定を更新  
+30.wgetコマンドでwordpressのURL(https://ja.wordpress.org/latest-ja.tar.gz)を実行しファイルをダウンロード  
+31.ダウンロードしたファイルを`gunzip ファイル名で解凍`、`tar -xf ファイル名`で展開  
+32./var/www/html/に解凍、展開したファイルを移動  
+33.`chown -R nginx:nginx /var/www/html/wordpress/*`で権限変更  
+34.
+~~~~
+$ iptables -A INPUT -p tcp --dport 80 -j ACCEPT  
+$ iptables -A INPUT -p tcp --dport 443 -j ACCEPT  
+$ iptables -L  
+~~~~
+でポートを開ける
