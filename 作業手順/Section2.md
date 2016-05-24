@@ -17,12 +17,13 @@
 13.`source /etc/profile`で変更点を更新  
 ####php設定  
 14.`yum -y install php`でphpをインストール  
+15./var/www/にecho '<?php echo phpinfo(); ?>' > index.phpでindex,htmlを作成  
 ####nginx設定
-15.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
-16.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
+16.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
+17.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
 ####nginxでphp-fpm動かす設定  
-17./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
-18./etc/nginx/conf.d/default.confの中の`root   /usr/share/nginx/html;`を`root   /var/www;`、`index  index.html index.htm;`を`index  index.php;
+18./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
+19./etc/nginx/conf.d/default.confの中の`root   /usr/share/nginx/html;`を`root   /var/www/;`、`index  index.html index.htm;`を`index  index.php;
 `、
 ~~~~  
  #location ~ \.php$ {  
@@ -36,11 +37,13 @@
 を  
 ~~~~
  location ~ \.php$ {   
-        root           /var/www;  
+        root           /var/www/;  
         fastcgi_pass   127.0.0.1:9000;  
         fastcgi_index  index.php;  
         fastcgi_param  SCRIPT_FILENAME  /var/www$fastcgi_script_name;  
         include        fastcgi_params;  
      }
 ~~~~  
-に書き換える
+に書き換える  
+20.`systemctl start php-fpm.service`でphp-fpmを起動  
+21.default.confの内容を変更したので`systemctl restart nginx.service`でnginxを再起動
