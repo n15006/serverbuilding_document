@@ -14,11 +14,25 @@ config.vm.box = "base"
 config.vm.box = "CentOS7"
 ~~~~
 に書き換える  
-5.vagrantfileの中の`Vagrant.configure(2) do |config|`~`end`の間に`config.vm.network "private_network", ip:"好きなIPアドレス"`を追記し閉じる  
-6.`vagrant up`するとUSB 2.0 controller not foundのようなエラーを吐いたのでvirtualboxのサイトから`Oracle_VM_VirtualBox_Extension_Pack-5.0.20-106931.vbox-extpack`をダウンロードしてくる  
+5.vagrantfileの中の
+~~~~
+Vagrant.configure(2) do |config|
+
+end
+~~~~
+の間に
+~~~~
+config.vm.network "private_network", ip:"好きなIPアドレス"
+~~~~
+を追記し閉じる  
+6.`vagrant up`するとUSB 2.0 controller not foundのようなエラーを吐いたのでvirtualboxのサイトから以下をダウンロード
+~~~~
+Oracle_VM_VirtualBox_Extension_Pack-5.0.20-106931.vbox-extpack
+~~~~
 7.virtualboxを起動し環境設定の中の機能拡張からダウンロードしたパッケージを追加  
 8.root権限で`vagrant up`をし、`vagrant ssh`でログイン  
 #Wordpress設定
+##2-2 Nginx + PHP + MariaDB
 ####yum設定
 9./etc/yum.confの中に以下を追記  
 ~~~~
@@ -43,12 +57,12 @@ export HTTPS_PROXY=$PROXY
 12.`source /etc/profile`で変更点を更新  
 ####php設定  
 13.`yum -y install php php-fpm php-mysql`でphpをインストール  
-14./var/www/にecho '<?php echo phpinfo(); ?>' > index.phpでindex,htmlを作成  
 ####nginx設定
-15.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
-16.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
+14.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
+15.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
 ####nginxでphp-fpm動かす設定  
-17./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
+16./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
+17./var/www/にecho '<?php echo phpinfo(); ?>' > index.phpでindex,htmlを作成
 18./etc/nginx/conf.d/default.confの中を以下に書き換える
 ~~~~
   root   /var/www/;
@@ -109,4 +123,7 @@ $ iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 $ iptables -L  
 ~~~~  
 37./etc/selinux/configの中の`SELINUX=enable`を`SELINUX=disabled`に変更しSELINUXを停止  
-38.ブラウザで`ipアドレス/html/wordpress/wp-admin/install.php`を開く
+38.`ip a`でipアドレスを確認し、ブラウザで`ipアドレス/html/wordpress/wp-admin/install.php`を開く
+39.各項目を入力し、wordpressのページが表示されればOK  
+##2-3 Apache HTTP Server2.2 + PHP7.0 + (MySQL or MariaDB)
+####
