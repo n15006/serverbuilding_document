@@ -13,11 +13,11 @@
 9.コマンドip aでアドレスを確認し、自分のターミナルから仮想マシンにssh接続  
 ##インストール後の設定、アップデート 
 ####yum設定
-10.`etc/yum.conf`の中に`proxy=https://172.16.40.1:8888`と`proxy=http://172.16.40.1:8888`を追加する 
+10.`etc/yum.conf`の中に`proxy=https://proxyアドレス:????`と`proxy=http://proxyアドレス:????`を追加する 
 11.`yum -y install wget`でwgetをインストール   
 12.`vi /etc/wgetrc`で中のproxyの行を変更  
 ####proxy設定
-13.`/etc/profile`に`PROXY='172.16.40.1:8888'`,`export http_proxy=$PROXY`,`export HTTP_PROXY=$PROXY`,`export https_proxy=$PROXY`,`export HTTPS_PROXY=$PROXY`を追記  
+13.`/etc/profile`に`PROXY='proxyアドレス:????'`,`export http_proxy=$PROXY`,`export HTTP_PROXY=$PROXY`,`export https_proxy=$PROXY`,`export HTTPS_PROXY=$PROXY`を追記  
 14.`source /etc/profile`で変更点を更新  
 ####php設定
 15.yumで`yum -y install php php-mdstring php-mysql`でphpをインストール  
@@ -33,7 +33,7 @@
 23.`service mysqld start`でmysqlを起動  
 24.`mysql_secure_installation`でmysqlの初期設定とパスワード設定  
 25.`mysql -u root -p`で設定したパスワードでログイン  
-26.mysqlのshell内で`create database @@@@;`でデータベースを作る  
+26.mysqlのshell内で`create database データベース名;`でデータベースを作る  
 27.`flush privileges;`で設定を更新  
 ##wordpress設定
 28.wgetでwordpressのURLを入力しファイルを取ってくる  
