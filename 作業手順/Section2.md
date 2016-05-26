@@ -25,15 +25,14 @@ config.vm.box = "CentOS7"
 proxy=https://proxyアドレス:????
 proxy=http://proxyアドレス:????
 ~~~~
-10.`yum -y install wget`でwgetをインストール
-11.`vi /etc/wgetrc`で中のproxyの行を変更
+10.`vi /etc/wgetrc`で中のproxyの行を変更  
 ~~~~
 https_proxy = http://proxyアドレス:????/
 http_proxy = http://proxyアドレス:????/
 ftp_proxy = http://proxyアドレス:????/
 ~~~~
 ####proxy設定
-12./etc/profileに以下を追記  
+11./etc/profileに以下を追記  
 ~~~~
 PROXY='proxyアドレス:????'
 export http_proxy=$PROXY
@@ -41,16 +40,16 @@ export HTTP_PROXY=$PROXY
 export https_proxy=$PROXY
 export HTTPS_PROXY=$PROXY
 ~~~~
-13.`source /etc/profile`で変更点を更新  
+12.`source /etc/profile`で変更点を更新  
 ####php設定  
-14.`yum -y install php php-fpm php-mysql`でphpをインストール  
-15./var/www/にecho '<?php echo phpinfo(); ?>' > index.phpでindex,htmlを作成  
+13.`yum -y install php php-fpm php-mysql`でphpをインストール  
+14./var/www/にecho '<?php echo phpinfo(); ?>' > index.phpでindex,htmlを作成  
 ####nginx設定
-16.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
-17.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
+15.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
+16.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
 ####nginxでphp-fpm動かす設定  
-18./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
-19./etc/nginx/conf.d/default.confの中を以下に書き換える
+17./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
+18./etc/nginx/conf.d/default.confの中を以下に書き換える
 ~~~~
   root   /var/www/;
   index  index.php;
@@ -64,31 +63,31 @@ export HTTPS_PROXY=$PROXY
      }
 ~~~~  
 に書き換える  
-20.以下のコマンドでnginxとphp-fpmの自動起動設定  
+19.以下のコマンドでnginxとphp-fpmの自動起動設定  
 ~~~~
 $ systemctl enable php-fpm.service
 $ systemctl enable nginx.service
 ~~~~
-21.default.confの内容を変更したのでnginxを再起動&php-fpm起動  
+20.default.confの内容を変更したのでnginxを再起動&php-fpm起動  
 ~~~~
 $ systemctl restart nginx.service  
 $ systemctl start php-fpm.service  
 ~~~~
-22.`ip a`でipを確認しブラウザでアクセスし、phpinfo()が表示されればOK  
+21.`ip a`でipを確認しブラウザでアクセスし、phpinfo()が表示されればOK  
 ####MariaDB設定  
-23.以下のコマンドででmariadbとmariadb-serverダウンロード&インストール  
+22.以下のコマンドででmariadbとmariadb-serverダウンロード&インストール  
 ~~~~
 $ yum -y install mariadb mariadb-server
 ~~~~
-24.自動起動設定  
+23.自動起動設定  
 ~~~~
 $ systemctl enable mariadb.service
 ~~~~
-25.`systemctl start mariadb`で起動  
-26.`mysql_secure_installation`で初期設定とパスワード設定  
-27.`mysql -u root -p`を実行し設定したパスワードでログイン  
-28.`create database データベース名`でデータベース作成  
-29.以下のコマンドでユーザー作成  
+24.`systemctl start mariadb`で起動  
+25.`mysql_secure_installation`で初期設定とパスワード設定  
+26.`mysql -u root -p`を実行し設定したパスワードでログイン  
+27.`create database データベース名`でデータベース作成  
+28.以下のコマンドでユーザー作成  
 ~~~~
 Mariadb>  GRANT ALL PRIVILEGES ON データベース名.* TO "管理ユーザ"@"localhost" IDENTIFIED BY "パスワード";
 ~~~~
