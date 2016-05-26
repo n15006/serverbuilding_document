@@ -16,7 +16,7 @@ config.vm.box = "CentOS7"
 に書き換える  
 5.vagrantfileの中の`Vagrant.configure(2) do |config|`~`end`の間に`config.vm.network "private_network", ip:"好きなIPアドレス"`を追記し閉じる  
 6.`vagrant up`するとUSB 2.0 controller not foundのようなエラーを吐いたのでvirtualboxのサイトから`Oracle_VM_VirtualBox_Extension_Pack-5.0.20-106931.vbox-extpack`をダウンロードしてくる  
-7.virtualboxの環境設定の中の機能拡張からダウンロードしたパッケージを追加  
+7.virtualboxを起動し環境設定の中の機能拡張からダウンロードしたパッケージを追加  
 8.root権限で`vagrant up`をし、`vagrant ssh`でログイン  
 #Wordpress設定
 ####yum設定
@@ -82,15 +82,22 @@ $ yum -y install mariadb mariadb-server
 ~~~~
 24.自動起動設定  
 ~~~~
-$ systemctl enable mariadb
+$ systemctl enable mariadb.service
 ~~~~
 25.`systemctl start mariadb`で起動  
 26.`mysql_secure_installation`で初期設定とパスワード設定  
 27.`mysql -u root -p`を実行し設定したパスワードでログイン  
 28.`create database データベース名`でデータベース作成  
-29.flush privileges;で設定を更新  
+29.以下のコマンドでユーザー作成  
+~~~~
+Mariadb>  GRANT ALL PRIVILEGES ON データベース名.* TO "管理ユーザ"@"localhost" IDENTIFIED BY "パスワード";
+~~~~
+29.`flush privileges;`で設定を更新  
 ####wordpress設定  
-30.wgetコマンドでwordpressのURL(https://ja.wordpress.org/latest-ja.tar.gz)を実行しファイルをダウンロード  
+30.以下のコマンドを実行しwordpressをダウンロード  
+~~~~
+$ wget https://ja.wordpress.org/latest-ja.tar.gz
+~~~~
 31.ダウンロードしたファイルを`gunzip ファイル名で解凍`、`tar -xf ファイル名`で展開  
 32./var/www/html/に解凍、展開したファイルを移動  
 33.`chown -R nginx:nginx /var/www/html/wordpress/*`で権限変更  
@@ -103,4 +110,3 @@ $ iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 $ iptables -L  
 ~~~~  
 37./etc/selinux/configの中の`SELINUX=enable`を`SELINUX=disabled`に変更しSELINUXを停止  
-38.
