@@ -43,7 +43,7 @@ export HTTPS_PROXY=$PROXY
 ~~~~
 13.`source /etc/profile`で変更点を更新  
 ####php設定  
-14.`yum -y install php php-fpm`でphpをインストール  
+14.`yum -y install php php-fpm php-mysql`でphpをインストール  
 15./var/www/にecho '<?php echo phpinfo(); ?>' > index.phpでindex,htmlを作成  
 ####nginx設定
 16.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
@@ -110,3 +110,4 @@ $ iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 $ iptables -L  
 ~~~~  
 37./etc/selinux/configの中の`SELINUX=enable`を`SELINUX=disabled`に変更しSELINUXを停止  
+38.ブラウザで`ipアドレス/html/wordpress/wp-admin/install.php`を開く
