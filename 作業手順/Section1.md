@@ -41,8 +41,8 @@
 30.移動したファイルを`gunzip ファイル名`で解凍、`tar -xf ファイル名`で展開  
 31.`chown -R apache:apache /var/www/html/wordpress/*`で権限変更  
 32.`iptables -A INPUT -p tcp --dport 80 -j ACCEPT`,`iptables -A INPUT -p tcp --dport 443 -j ACCEPT`,`iptables -L`でポートを開ける  
-33.`sudo vi /etc/selinux/config`の中の文章を`SELINUX=disabled`に変更しSELINUXを停止
-34.ブラウザで、http://192.168.56.102/wordpress/wp-admin/install.phpを開く  
+33.`sudo vi /etc/selinux/config`の中の文章を`SELINUX=disabled`に変更しSELINUXを停止  
+34.ブラウザで、`http://192.168.56.102/wordpress/wp-admin/install.php`を開く  
 35.mysqlで設定したデータベース名、ユーザー、パスワード、ホスト名を入力し次へ  
 36.インストールを実行  
 37.タイトル、名前、メールアドレスなどを設定  
