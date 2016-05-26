@@ -22,20 +22,20 @@ config.vm.box = "CentOS7"
 ####yum設定
 9./etc/yum.confの中に以下を追記  
 ~~~~
-proxy=https://172.16.40.1:8888
-proxy=http://172.16.40.1:8888
+proxy=https://proxyアドレス:????
+proxy=http://proxyアドレス:????
 ~~~~
 10.`yum -y install wget`でwgetをインストール
 11.`vi /etc/wgetrc`で中のproxyの行を変更
 ~~~~
-https_proxy = http://172.16.40.1:8888/
-http_proxy = http://172.16.40.1:8888/
-ftp_proxy = http://172.16.40.1:8888/
+https_proxy = http://proxyアドレス:????/
+http_proxy = http://proxyアドレス:????/
+ftp_proxy = http://proxyアドレス:????/
 ~~~~
 ####proxy設定
 12./etc/profileに以下を追記  
 ~~~~
-PROXY='172.16.40.1:8888'
+PROXY='proxyアドレス:????'
 export http_proxy=$PROXY
 export HTTP_PROXY=$PROXY
 export https_proxy=$PROXY
