@@ -162,8 +162,8 @@ ServerName localhost:80  ←追記
 ####php7.0の設定
 6.ホームでphp7.0をダウンロード&展開  
 ~~~~
-wget http://jp2.php.net/get/php-7.0.6.tar.bz2/from/this/mirror
-tar -xvf mirror
+$ wget http://jp2.php.net/get/php-7.0.6.tar.bz2/from/this/mirror
+$ tar -xvf mirror
 ~~~~
 7.ディレクトリに移動しビルド  
 ~~~~
@@ -208,7 +208,7 @@ $ systemctl restart mariadb
 14.ホームでwordpressをダウンロード&展開  
 ~~~~
 $ wget https://ja.wordpress.org/latest-ja.tar.gz
-$ tar -xvf 
+$ tar -xvf latest-ja.tar.gz 
 ~~~~
 15.htdocsにファイルを移動  
 ~~~~
@@ -231,6 +231,15 @@ $ vi /usr/local/apache2/conf/httpd.conf
 ~~~~
 17.wordpress起動&各種入力  
 ~~~~
-(ブラウザで)ipアドレス/html/wordpress/wp-admin/install.php
+(ブラウザで)ipアドレス/wp-admin/install.php
 localhostのところに127.0.0.1と入力
 ~~~~
+18.wp-config.phpがないのでエラー、画面の指示に従う  
+~~~~
+$ cd /usr/local/apache2/htdocs/
+$ cp wp-config-sample.php wp-config.php
+$ vi wp-config.php
+
+データベース、ユーザー、パスワード、localhostを自分の設定に変更
+~~~~
+18.ブラウザでインストール実行
