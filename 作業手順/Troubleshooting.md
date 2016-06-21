@@ -16,15 +16,14 @@ ps aux | grep httpd
 ~~~~
 kill ????
 ~~~~
-#
-./configure only
-php download 
-同じ手順
-libxml2-devel download
-./configure --with-apxs2=/usr/local/apache2/bin/apxs --with-mysqli
-make
-make install
-/usr/local/apache2/bin/apachectl start
- yum -y install mariadb mariadb-servercd
-cd /usr/local/apache2/htdocs/の中にwordpressの中身をぶちまける
-
+#wordpress起動後サイトの表示がit works
+試したこと
+~~~~
+ブラウザのキャッシュクリア
+Ctrl + F5
+~~~~
+~~~~
+index.htmlの削除
+~~~~
+#ブラウザでバージョンなどの確認
+右クリック→検証→NetWork→ブラウザリロード→下タブのアドレス(192....)でサーバーやPHPの確認ができる
