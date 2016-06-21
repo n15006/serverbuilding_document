@@ -37,7 +37,7 @@ Oracle_VM_VirtualBox_Extension_Pack-5.0.20-106931.vbox-extpack
 #Wordpress設定
 ##2-2 Nginx + PHP + MariaDB
 ####yum設定
-9./etc/yum.confの中に以下を追記  
+9.`/etc/yum.conf`の中に以下を追記  
 ~~~~
 proxy=https://proxyアドレス:????
 proxy=http://proxyアドレス:????
@@ -49,7 +49,7 @@ http_proxy = http://proxyアドレス:????/
 ftp_proxy = http://proxyアドレス:????/
 ~~~~
 ####proxy設定
-11./etc/profileに以下を追記  
+11.`/etc/profile`に以下を追記  
 ~~~~
 PROXY='proxyアドレス:????'
 export http_proxy=$PROXY
@@ -135,7 +135,7 @@ $ iptables -L
 1.ホームでapasheをダウンロード&展開  
 ~~~~
 $ wget http://ftp.riken.jp/net/apache//httpd/httpd-2.2.31.tar.gz
-$ tar -xvzf httpd-2.2.31.tar.gz
+$ tar -xvf httpd-2.2.31.tar.gz
 ~~~~
 2.ディレクトリに移動しビルド&コンパイル  
 ~~~~
