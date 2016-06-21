@@ -126,53 +126,109 @@ $ iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 $ iptables -L  
 ~~~~  
 37./etc/selinux/configの中の`SELINUX=enable`を`SELINUX=disabled`に変更しSELINUXを停止  
-38.`ip a`でipアドレスを確認し、ブラウザで`ipアドレス/html/wordpress/wp-admin/install.php`を開く
+38.`ip a`でipアドレスを確認し、ブラウザで`ipアドレス/html/wordpress/wp-admin/install.php`を開く  
 39.各項目を入力し、wordpressのページが表示されればOK  
 ##2-3 Apache HTTP Server2.2 + PHP7.0 + (MySQL or MariaDB)
-####
-wget http://ftp.riken.jp/net/apache//httpd/httpd-2.2.31.tar.gz
-tar -xvzf httpd-2.2.31.tar.gz
-./configure
-make
-make install
-/usr/local/apache2/bin/apachectl start
-error
-vi /usr/local/apache2/conf/httpd.conf
-#ServerName www.example.com:80
-ServerName localhost:80  ←この行を追加
+####apashe2.2の設定
+1.ホームでapasheをダウンロード&展開  
+~~~~
+$ wget http://ftp.riken.jp/net/apache//httpd/httpd-2.2.31.tar.gz
+$ tar -xvzf httpd-2.2.31.tar.gz
+~~~~
+2.ディレクトリに移動しビルド&コンパイル  
+~~~~
+$ cd httpd-2.2.31
+$ ./configure
+$ make
+$ make install
+~~~~
+3.apache起動  
+~~~~
+$ /usr/local/apache2/bin/apachectl start
+~~~~
+4.httpd: Could not reliably....FQDNがおかしいので以下で修正  
+~~~~
+$ vi /usr/local/apache2/conf/httpd.conf
+
+#ServerName www.example.com:80  
+ServerName localhost:80  ←追記  
+~~~~
+5.apache再起動  
+~~~~
 /usr/local/apache2/bin/apachectl restart
+~~~~
+####php7.0の設定
+6.ホームでphp7.0をダウンロード&展開  
+~~~~
 wget http://jp2.php.net/get/php-7.0.6.tar.bz2/from/this/mirror
 tar -xvf mirror
-./configure --with-apxs2=/usr/local/apache2/bin/apxs --with-mysqli
+~~~~
+7.ディレクトリに移動しビルド  
+~~~~
+$ cd php-7.0.6
+$ ./configure --with-apxs2=/usr/local/apache2/bin/apxs --with-mysqli
+~~~~
+8.libxml2がインストールされてなかったからエラー吐いた、以下で解決  
+~~~~
 yum install -y libxml2 libxml2-devel
-make
-make install
-yum -y install mariadb mariadb-devel mariadb-server
-systemctl start mariadb
-mysql -p
+~~~~
+9.再度ビルド  
+~~~~
+$ ./configure --with-apxs2=/usr/local/apache2/bin/apxs --with-mysqli
+$ make
+$ make install
+~~~~
+10.php.ini作成のため以下コマンド  
+~~~~
+$ find / -name "php.ini-development" -ls
+$ cp php.ini-development /usr/local/lib/php.ini
+$ /usr/local/apache2/bin/apachectl restart
+~~~~
+####mariadbの設定
+10.mariadbのインストール  
+~~~~
+$ yum -y install mariadb mariadb-devel mariadb-server
+~~~~
+11.mariadb起動、ログイン、データベース、ユーザー作成  
+~~~~
+$ systemctl start mariadb
+$ mysql -u root -p
 MariaDB [(none)]> create database database名;
 MariaDB [(none)]> GRANT ALL PRIVILEGES ON データベース名.* TO "管理ユーザ"@"localhost" IDENTIFIED BY "パスワード"; 
 MariaDB [(none)]> flush privileges;
 MariaDB [(none)]> exit
-systemctl restart mariadb
-wget https://ja.wordpress.org/latest-ja.tar.gz
-tar -xvzf 
-mv wordpress/ /usr/local/apache2/htdocs
-cd /usr/local/apache2/htdocs/
-mv wordpress/* ./
+~~~~
+12.mariadbリスタート  
+~~~~
+$ systemctl restart mariadb
+~~~~
+####wordpressの設定
+13.ホームでwordpressをダウンロード&展開  
+~~~~
+$ wget https://ja.wordpress.org/latest-ja.tar.gz
+$ tar -xvf 
+~~~~
+14.htdocsにファイルを移動  
+~~~~
+$ mv wordpress/ /usr/local/apache2/htdocs
+$ cd /usr/local/apache2/htdocs/
+$ mv wordpress/* ./
+~~~~
+15.httpd.confを編集  
+~~~~
 $ vi /usr/local/apache2/conf/httpd.conf
 
 <IfModule dir_module>
-    DirectoryIndex index.html ←ここに「index.php」を追加
+    DirectoryIndex index.html ←この行にindex.phpを追記
 </IfModule>
 
-そして行の最後尾にこいつを追加だぜ！
-  ↓            ↓           ↓
+行の最後尾に追記
 <FilesMatch "\.ph(p[2-6]?|tml)$">
     SetHandler application/x-httpd-php
 </FilesMatch>
-find / -name "php.ini-development" -ls
-cd /root/php-7.0.6/
-cp php.ini-development /usr/local/lib/php.ini
-/usr/local/apache2/bin/apachectl restart
+~~~~
+16.wordpress起動&各種入力  
+~~~~
+(ブラウザで)ipアドレス/html/wordpress/wp-admin/install.php
 localhostのところに127.0.0.1と入力
+~~~~
