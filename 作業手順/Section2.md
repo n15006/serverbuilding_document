@@ -129,6 +129,8 @@ $ iptables -L
 38.`ip a`でipアドレスを確認し、ブラウザで`ipアドレス/html/wordpress/wp-admin/install.php`を開く  
 39.各項目を入力し、wordpressのページが表示されればOK  
 ##2-3 Apache HTTP Server2.2 + PHP7.0 + (MySQL or MariaDB)
+####yum&proxy設定
+2-2参照
 ####apashe2.2の設定
 1.ホームでapasheをダウンロード&展開  
 ~~~~
@@ -185,11 +187,11 @@ $ cp php.ini-development /usr/local/lib/php.ini
 $ /usr/local/apache2/bin/apachectl restart
 ~~~~
 ####mariadbの設定
-10.mariadbのインストール  
+11.mariadbのインストール  
 ~~~~
 $ yum -y install mariadb mariadb-devel mariadb-server
 ~~~~
-11.mariadb起動、ログイン、データベース、ユーザー作成  
+12.mariadb起動、ログイン、データベース、ユーザー作成  
 ~~~~
 $ systemctl start mariadb
 $ mysql -u root -p
@@ -198,23 +200,23 @@ MariaDB [(none)]> GRANT ALL PRIVILEGES ON データベース名.* TO "管理ユ�
 MariaDB [(none)]> flush privileges;
 MariaDB [(none)]> exit
 ~~~~
-12.mariadbリスタート  
+13.mariadbリスタート  
 ~~~~
 $ systemctl restart mariadb
 ~~~~
 ####wordpressの設定
-13.ホームでwordpressをダウンロード&展開  
+14.ホームでwordpressをダウンロード&展開  
 ~~~~
 $ wget https://ja.wordpress.org/latest-ja.tar.gz
 $ tar -xvf 
 ~~~~
-14.htdocsにファイルを移動  
+15.htdocsにファイルを移動  
 ~~~~
 $ mv wordpress/ /usr/local/apache2/htdocs
 $ cd /usr/local/apache2/htdocs/
 $ mv wordpress/* ./
 ~~~~
-15.httpd.confを編集  
+16.httpd.confを編集  
 ~~~~
 $ vi /usr/local/apache2/conf/httpd.conf
 
@@ -227,7 +229,7 @@ $ vi /usr/local/apache2/conf/httpd.conf
     SetHandler application/x-httpd-php
 </FilesMatch>
 ~~~~
-16.wordpress起動&各種入力  
+17.wordpress起動&各種入力  
 ~~~~
 (ブラウザで)ipアドレス/html/wordpress/wp-admin/install.php
 localhostのところに127.0.0.1と入力
