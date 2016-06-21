@@ -33,6 +33,11 @@ $ ssh address
 ~~~~
 16.awsにssh接続  
 ~~~~
-ssh -i key_pair_name instance_URL
+$ ssh -i key_pair_name ec2-user@instance_URL
 ~~~~
+17.`WARNING: UNPROTECTED PRIVATE KEY FILE!`と出たので`.pem`のパーミッションを変更  
+~~~~
+$ chmod 600 key_pair_name
+~~~~
+18.再度ssh接続
 ####

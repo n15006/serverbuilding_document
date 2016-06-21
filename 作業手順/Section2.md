@@ -65,7 +65,7 @@ export HTTPS_PROXY=$PROXY
 15.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
 ####nginxでphp-fpm動かす設定  
 16./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
-17./var/www/にecho '<?php echo phpinfo(); ?>' > index.phpでindex,htmlを作成
+17./var/www/に`echo '<?php echo phpinfo(); ?>' > index.php`でindex.htmlを作成
 18./etc/nginx/conf.d/default.confの中を以下に書き換える
 ~~~~
   root   /var/www/;
@@ -130,3 +130,49 @@ $ iptables -L
 39.各項目を入力し、wordpressのページが表示されればOK  
 ##2-3 Apache HTTP Server2.2 + PHP7.0 + (MySQL or MariaDB)
 ####
+wget http://ftp.riken.jp/net/apache//httpd/httpd-2.2.31.tar.gz
+tar -xvzf httpd-2.2.31.tar.gz
+./configure
+make
+make install
+/usr/local/apache2/bin/apachectl start
+error
+vi /usr/local/apache2/conf/httpd.conf
+#ServerName www.example.com:80
+ServerName localhost:80  ←この行を追加
+/usr/local/apache2/bin/apachectl restart
+wget http://jp2.php.net/get/php-7.0.6.tar.bz2/from/this/mirror
+tar -xvf mirror
+./configure --with-apxs2=/usr/local/apache2/bin/apxs --with-mysqli
+yum install -y libxml2 libxml2-devel
+make
+make install
+yum -y install mariadb mariadb-devel mariadb-server
+systemctl start mariadb
+mysql -p
+MariaDB [(none)]> create database database名;
+MariaDB [(none)]> GRANT ALL PRIVILEGES ON データベース名.* TO "管理ユーザ"@"localhost" IDENTIFIED BY "パスワード"; 
+MariaDB [(none)]> flush privileges;
+MariaDB [(none)]> exit
+systemctl restart mariadb
+wget https://ja.wordpress.org/latest-ja.tar.gz
+tar -xvzf 
+mv wordpress/ /usr/local/apache2/htdocs
+cd /usr/local/apache2/htdocs/
+mv wordpress/* ./
+$ vi /usr/local/apache2/conf/httpd.conf
+
+<IfModule dir_module>
+    DirectoryIndex index.html ←ここに「index.php」を追加
+</IfModule>
+
+そして行の最後尾にこいつを追加だぜ！
+  ↓            ↓           ↓
+<FilesMatch "\.ph(p[2-6]?|tml)$">
+    SetHandler application/x-httpd-php
+</FilesMatch>
+find / -name "php.ini-development" -ls
+cd /root/php-7.0.6/
+cp php.ini-development /usr/local/lib/php.ini
+/usr/local/apache2/bin/apachectl restart
+localhostのところに127.0.0.1と入力
