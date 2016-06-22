@@ -257,3 +257,15 @@ $ab -n 10 -c 10 http://ip_address/
 4.PageSpeed Insights (with PNaCl)をchromeにインストール  
 5.[簡単な使い方(http://bl6.jp/web/webservice/chrome-extensions-pagespeed-insights/)](http://bl6.jp/web/webservice/chrome-extensions-pagespeed-insights/)  
 6.Page Speed Score: 72/100だったので改善していく  
+7.`/usr/local/apache2/conf/httpd.conf`を編集する  
+~~~~
+以下を行に追記
+
+<Directory "/">
+SetOutputFilter DEFLATE
+AddOutputFilterByType DEFLATE application/javascript
+AddOutputFilterByType DEFLATE text/css
+</Directory>
+~~~~
+8.`/usr/local/apache2/bin/apachectl restart`で再起動  
+9.再度計測すると`Page Speed Score: 76/100`に上がった  
