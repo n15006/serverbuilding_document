@@ -244,7 +244,7 @@ $ vi wp-config.php
 ~~~~
 19.ブラウザでインストール実行  
 20.各項目を入力し、wordpressのページが表示されればOK
-##ベンチマークを取る
+##2-4 ベンチマークを取る
 1.ab(Apache Bench)ををインストール  
 ~~~~
 $ sudo apt install apache2-utils
@@ -255,5 +255,5 @@ $ab -n 10 -c 10 http://ip_address/
 ~~~~
 3.`...Requests per second:    3.27 [#/sec] (mean)...`1秒間に3.27の処理速度と出た  
 4.PageSpeed Insights (with PNaCl)をchromeにインストール  
-5.[簡単な使い方](http://bl6.jp/web/webservice/chrome-extensions-pagespeed-insights/)  
+5.[簡単な使い方(http://bl6.jp/web/webservice/chrome-extensions-pagespeed-insights/)](http://bl6.jp/web/webservice/chrome-extensions-pagespeed-insights/)  
 6.Page Speed Score: 72/100だったので改善していく  
