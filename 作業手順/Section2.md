@@ -64,22 +64,29 @@ export HTTPS_PROXY=$PROXY
 14.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
 15.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
 ####nginxでphp-fpm動かす設定  
-16./etc/php-fpm.d/www.confの中の`user = apache`と`group = apache`のapacheをnginxに書き換える  
-17./var/www/に`echo '<?php echo phpinfo(); ?>' > index.php`でindex.htmlを作成
+16./etc/php-fpm.d/www.confの中を編集  
+~~~~
+user = apache
+group = apache
+
+apacheをnginxに書き換える
+~~~~
+17.`/usr/share/nginx/html`に`echo '<?php echo phpinfo(); ?>' > index.php`でindex.phpを作成
 18./etc/nginx/conf.d/default.confの中を以下に書き換える
 ~~~~
-  root   /var/www/;
-  index  index.php;
+location / {
+        root   /usr/share/nginx/html/;
+        index  index.html; ←index.phpを追記
+    }
 
  location ~ \.php$ {   
-        root           /var/www/;  
-        fastcgi_pass   127.0.0.1:9000;  
-        fastcgi_index  index.php;  
-        fastcgi_param  SCRIPT_FILENAME  /var/www$fastcgi_script_name;  
+        root           html/;  
+        fastcgi_pass   127.0.0.1:9000;  ここを書き換える
+        fastcgi_index  index.php;            ↓
+        fastcgi_param  SCRIPT_FILENAME  /your_root/$fastcgi_script_name;  
         include        fastcgi_params;  
      }
 ~~~~  
-に書き換える  
 19.以下のコマンドでnginxとphp-fpmの自動起動設定  
 ~~~~
 $ systemctl enable php-fpm.service
@@ -103,7 +110,7 @@ $ systemctl enable mariadb.service
 24.`systemctl start mariadb`で起動  
 25.`mysql_secure_installation`で初期設定とパスワード設定  
 26.`mysql -u root -p`を実行し設定したパスワードでログイン  
-27.`create database データベース名`でデータベース作成  
+27.`create database データベース名;`でデータベース作成  
 28.以下のコマンドでユーザー作成  
 ~~~~
 Mariadb>  GRANT ALL PRIVILEGES ON データベース名.* TO "管理ユーザ"@"localhost" IDENTIFIED BY "パスワード";
@@ -114,10 +121,10 @@ Mariadb>  GRANT ALL PRIVILEGES ON データベース名.* TO "管理ユーザ"@"
 ~~~~
 $ wget https://ja.wordpress.org/latest-ja.tar.gz
 ~~~~
-31.ダウンロードしたファイルを`gunzip ファイル名で解凍`、`tar -xf ファイル名`で展開  
-32./var/www/html/に解凍、展開したファイルを移動  
-33.`chown -R nginx:nginx /var/www/html/wordpress/*`で権限変更  
-34./var/www/html/wordpress/の中にある`wp-config-sample.php`をcpコマンドで`wp-config.php`に名前を変えてコピーする  
+31.ダウンロードしたファイルを`tar -xvf ファイル名`で展開  
+32./usr/share/nginx/html/に展開したファイルを移動  
+33.`chown -R nginx:nginx /usr/share/nginx/html/*`で権限変更  
+34./usr/share/nginx/html/wordpress/の中にある`wp-config-sample.php`をcpコマンドで`wp-config.php`に名前を変えてコピーする  
 35.wp-config.phpの中のデータベース名、ユーザー名、パスワードをmysqlで設定した内容に書き換える  
 36.以下のコマンドでポートを開ける  
 ~~~~
@@ -126,7 +133,7 @@ $ iptables -A INPUT -p tcp --dport 443 -j ACCEPT
 $ iptables -L  
 ~~~~  
 37./etc/selinux/configの中の`SELINUX=enable`を`SELINUX=disabled`に変更しSELINUXを停止  
-38.`ip a`でipアドレスを確認し、ブラウザで`ipアドレス/html/wordpress/wp-admin/install.php`を開く  
+38.`ip a`でipアドレスを確認し、ブラウザで`ipアドレス/wordpress/wp-admin`を開く  
 39.各項目を入力し、wordpressのページが表示されればOK  
 ##2-3 Apache HTTP Server2.2 + PHP7.0 + (MySQL or MariaDB)
 ####yum&proxy設定
