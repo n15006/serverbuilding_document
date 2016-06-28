@@ -64,7 +64,7 @@ export HTTPS_PROXY=$PROXY
 14.`rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm`でリポジトリ追加  
 15.エラーメッセージが出たので`yum -y install --skip-broken nginx`でインストール  
 ####nginxでphp-fpm動かす設定  
-16./etc/php-fpm.d/www.confの中を編集  
+16.`/etc/php-fpm.d/www.conf`の中を編集  
 ~~~~
 user = apache
 group = apache

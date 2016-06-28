@@ -71,3 +71,32 @@ Cannot load /usr/local/apache2/modules/mod_deflate.so into server: /usr/local/ap
 # /usr/local/apache2/bin/apxs -i -a -c mod_deflate.c -lz
 ~~~~
 [参考にしたサイト(http://www.atmarkit.co.jp/ait/articles/0510/07/news107_2.html)](http://www.atmarkit.co.jp/ait/articles/0510/07/news107_2.html)
+
+-k, --ask-pass
+SSH のパスワードを尋ねる(プロンプトが出る)
+~~~~
+例
+$ ansible -k
+SSH password: vagrant
+~~~~
+
+-i INVENTORY, --inventory-file=INVENTORY
+インベントリファイルを指定する(デフォルトは /etc/ansible/hosts)
+~~~~
+例
+$ ansible -i hosts
+~~~~
+
+-u REMOTE_USER, --user=REMOTE_USER
+SSH で接続するユーザー名を指定する
+~~~~
+例
+-u vagrant
+~~~~
+#vagrantでpluginが導入できない
+vagrantはapt-getでインストールするとなんかコケる(バグらしい)、ので公式の方からダウンロードしてくる  
+[公式https://www.vagrantup.com/downloads.html](https://www.vagrantup.com/downloads.html)  
+インストール  
+~~~~
+dpkg -i vagrant_1.8.4_x86_64.deb
+~~~~
